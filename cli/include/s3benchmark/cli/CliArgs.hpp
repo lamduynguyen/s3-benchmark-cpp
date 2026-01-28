@@ -27,15 +27,15 @@ namespace s3benchmark::cli {
             "The maximum number of threads to use when fetching objects from S3 as a multiple of the hardware thread count.");
             DEFINE_double(threads_step, 2,
             "What increase in thread count per benchmark run is. Positive means multiplicative, negative means additive.");
-            DEFINE_uint64(payloads_min, 10 * units::kib,
-            "The minimum object size to test, with 1 = 1 MB, and every increment is a double of the previous value.");
-            DEFINE_uint64(payloads_max, 160 * units::kib,
-            "The maximum object size to test, with 1 = 1 MB, and every increment is a double of the previous value.");
+            DEFINE_uint64(payloads_min, 128,
+            "The minimum object size to test (in bytes), and every increment is a double of the previous value.");
+            DEFINE_uint64(payloads_max, 4 * units::kib,
+            "The maximum object size to test (in bytes), and every increment is a double of the previous value.");
             DEFINE_uint64(payloads_step, 2,
             "What the multiplicative increase in payload size per benchmark run is (size *= step). Must be > 1");
             DEFINE_bool(payloads_reverse, false,
             "If true, start with the largest payload size first and decrease from there");
-            DEFINE_uint64(samples, 10,
+            DEFINE_uint64(samples, 5,
             "The number of samples to collect for each test of a single object size per thread.");
             DEFINE_uint64(samples_cap, 7200,
             "The maximum number of samples to collect for each test of a single object size.");

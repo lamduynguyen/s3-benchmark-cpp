@@ -34,7 +34,7 @@ message(STATUS "[AWS] AWS_BUILD_BYPRODUCTS = ${AWS_BUILD_BYPRODUCTS}")
 
 ExternalProject_Add(awssdk
   GIT_REPOSITORY      https://github.com/aws/aws-sdk-cpp.git
-  GIT_TAG             1.7.348
+  GIT_TAG             1.11.736
   PREFIX              "vendor/awssdk"
   INSTALL_DIR         ${AWS_INSTALL_DIR}
   CMAKE_ARGS
