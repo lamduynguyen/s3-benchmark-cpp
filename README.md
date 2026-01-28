@@ -9,3 +9,7 @@ Example run on a c5n.18xlarge instance:
 ```
 sudo perf record --freq=997 --call-graph dwarf -q ./s3benchmark  --threads-min 72 --threads-max 72 --object-name "benchmark/largefile.bin" --samples 20 --payloads-min $((1024*1024*12)) --payloads-max $((1024*1024*12))
 ```
+
+## Dependencies
+
+`sudo apt-get install zlib1g-dev libssl-dev cmake g++ libcurl4-openssl-dev`

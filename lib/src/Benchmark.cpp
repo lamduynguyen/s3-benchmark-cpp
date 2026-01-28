@@ -17,12 +17,14 @@
 
 #include "s3benchmark/Config.hpp"
 #include "s3benchmark/Types.hpp"
+#include "s3benchmark/Time.hpp"
 
 namespace s3benchmark {
 
     Benchmark::Benchmark(const Config &config)
             : config(config)
             , client(Aws::S3::S3Client(config.aws_config())) {
+        std::cout << "Current TSC_PER_NS setting: " << tsctime::TSC_PER_NS << std::endl;
     }
 
     void Benchmark::list_buckets() const {
@@ -45,10 +47,10 @@ namespace s3benchmark {
     }
 
     [[nodiscard]] inline latency_t Benchmark::fetch_object(const Aws::S3::Model::GetObjectRequest &req) const {
-        auto start = clock::now();
+        auto start = tsctime::ReadTSC();
         client.GetObject(req);
-        auto end = clock::now();
-        return std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        auto end = tsctime::ReadTSC();
+        return tsctime::TscDifferenceUs(start, end);
     }
 
     latency_t Benchmark::fetch_range(const ByteRange &range, char* outbuf, size_t bufsize) const {
@@ -101,7 +103,7 @@ namespace s3benchmark {
             requests.push_back(req);
         }
 
-        clock::time_point start_time;
+        latency_t start_time;
         bool do_start = false;
 
         for (unsigned t_id = 0; t_id != params.thread_count; ++t_id) {
@@ -112,7 +114,7 @@ namespace s3benchmark {
                    while (!do_start) { } // wait until all threads are started
                } else {
                    do_start = true; // the last started thread sets the start time
-                   start_time = clock::now();
+                   start_time = tsctime::ReadTSC();
                }
                for (unsigned i = 0; i < params.sample_count; ++i) {
                    results[idx_start + i] = this->fetch_object(requests[idx_start + i]);
@@ -123,10 +125,10 @@ namespace s3benchmark {
         for (auto &thread : threads) {
             thread.join();
         }
-        clock::time_point end_time = clock::now();
+        auto end_time = tsctime::ReadTSC();
         return RunResults{
             results,
-            std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time)
+            static_cast<size_t>(tsctime::TscDifferenceMs(start_time, end_time))
         };
     }
 

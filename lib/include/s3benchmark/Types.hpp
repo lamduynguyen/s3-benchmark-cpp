@@ -13,7 +13,7 @@
 #include "Util.hpp"
 
 namespace s3benchmark {
-    using latency_t = std::chrono::duration<size_t, std::ratio<1, 1000>>;
+    using latency_t = uint64_t;
     struct Latency {
         latency_t first_byte;
         latency_t last_byte;
@@ -60,7 +60,7 @@ namespace s3benchmark {
             , samples_sum(run.data_points.size())
             , duration(run.overall_time) {
             latency_t l_min, l_max = run.data_points[0];
-            latency_t l_sum = latency_t::zero();
+            latency_t l_sum = 0;
             for (auto& dp : run.data_points) {
                 if (dp < l_min) l_min = dp;
                 if (dp > l_max) l_max = dp;
@@ -68,7 +68,7 @@ namespace s3benchmark {
             }
             latency_t l_avg = l_sum / this->samples_sum;
             this->download_sum = samples_sum * params.payload_size;
-            this->throughput_mbps = (download_sum * 1.0 / units::mib) / (duration.count() * 1.0 / units::ms_per_sec);
+            this->throughput_mbps = (download_sum * 1.0 / units::mib) / (duration * 1.0 / units::ms_per_sec);
             this->latency_avg = l_avg;
             this->latency_min = l_min;
             this->latency_max = l_max;

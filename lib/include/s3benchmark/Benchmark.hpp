@@ -16,8 +16,6 @@ namespace s3benchmark {
     using ObjectHead = Aws::S3::Model::HeadObjectOutcome;
 
     class Benchmark {
-        using clock = std::chrono::steady_clock;
-
         const Config &config;
         Aws::S3::S3Client client;
 

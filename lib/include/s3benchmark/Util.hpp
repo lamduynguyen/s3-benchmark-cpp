@@ -23,6 +23,7 @@ namespace s3benchmark {
         inline static const size_t mib = 1024 * kib;
         inline static const size_t gib = 1024 * mib;
 
+        inline static const size_t ns_per_sec = 1000000000UL;
         inline static const size_t ms_per_sec = 1000;
         inline static const size_t ms_per_min = 60 * ms_per_sec;
     }
