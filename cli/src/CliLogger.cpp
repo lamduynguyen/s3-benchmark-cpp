@@ -42,6 +42,7 @@ namespace s3benchmark {
         auto dry_run = config.dry_run ? "Yes" : "No";
         auto payload_dir = config.payloads_reverse ? "Backward" : "Forward";
 
+        print_conf_var("Read-only Benchmark", config.fetch_benchmark);
         print_conf_var("Dry Run Only", dry_run);
         print_conf_var("EC2 Region", config.region);
         print_conf_var("Bucket Name", config.bucket_name);

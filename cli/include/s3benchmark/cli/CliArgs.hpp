@@ -16,6 +16,8 @@ namespace s3benchmark::cli {
         #pragma ide diagnostic ignored "cert-err58-cpp"
         // Define program arguments using gflags macros
         namespace flags {
+            DEFINE_bool(bmread, false,
+                        "If true, benchmarking object fetch. False means benchmarking object write/put.");
             DEFINE_bool(quiet, false, "If true, log run results etc. to the cli.");
             DEFINE_bool(dry_run, false, "If true, don't do any requests but do a dry run instead");
             DEFINE_bool(threads_static, false,
@@ -62,6 +64,7 @@ namespace s3benchmark::cli {
                 throw std::runtime_error("More arguments given than necessary. Quitting.");
             }
             return Config({
+                    flags::FLAGS_bmread,
                     flags::FLAGS_dry_run,
                     flags::FLAGS_quiet,
                     flags::FLAGS_threads_static,

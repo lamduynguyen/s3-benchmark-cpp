@@ -12,6 +12,7 @@ namespace s3benchmark {
     using config_t = Aws::Client::ClientConfiguration;
 
     struct ConfigParameters {
+        bool fetch_benchmark;
         bool dry_run;
         bool quiet;
         bool threads_static;
