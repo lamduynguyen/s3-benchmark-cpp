@@ -21,19 +21,43 @@ set(BENCH_CLI_DIR "${CMAKE_SOURCE_DIR}/cli/")
 
 include("${CMAKE_SOURCE_DIR}/vendor/googletest.cmake")
 include("${CMAKE_SOURCE_DIR}/vendor/cpplint.cmake")
-include("${CMAKE_SOURCE_DIR}/vendor/awssdk.cmake")
+# include("${CMAKE_SOURCE_DIR}/vendor/awssdk.cmake")
 include("${CMAKE_SOURCE_DIR}/vendor/gflags.cmake")
+
+set(AWS_REQUIRED_LIBS
+  aws-cpp-sdk-s3                 # libaws-cpp-sdk-s3.a
+  aws-cpp-sdk-core               # libaws-cpp-sdk-core.a
+  aws-cpp-sdk-kms                # libaws-cpp-sdk-kms.a
+  aws-cpp-sdk-s3-encryption      # libaws-cpp-sdk-s3-encryption.a
+  aws-c-event-stream             # libaws-c-event-stream.a
+  aws-checksums                  # libaws-checksums.a
+  aws-c-io
+  aws-c-common                   # libaws-c-common.a
+  )
+find_package(OpenSSL REQUIRED)
+find_package(CURL REQUIRED)
+find_package(ZLIB REQUIRED)
+ set(AWS_LINK_LIBRARIES
+	     aws-cpp-sdk-s3
+    aws-cpp-sdk-core
+    aws-c-event-stream
+    aws-c-auth
+    aws-c-io
+    aws-checksums
+    aws-c-common
+    s2n
+    OpenSSL::Crypto
+    CURL::libcurl
+    z
+    pthread
+)
 
 # ---------------------------------------------------------------------------
 # Sources
 # ---------------------------------------------------------------------------
 
 include("${BENCH_LIB_DIR}/local.cmake")
-if(${BENCH_TARGET} MATCHES "cli")
-   include("${BENCH_CLI_DIR}/local.cmake")
-else()
-   message(WARN, "BENCH_TARGET not set, only building library")
-endif()
+include("${BENCH_CLI_DIR}/local.cmake")
 
 
 include("${CMAKE_SOURCE_DIR}/test/local.cmake")

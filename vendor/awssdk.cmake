@@ -14,6 +14,7 @@ set(AWS_REQUIRED_LIBS
   aws-cpp-sdk-s3-encryption      # libaws-cpp-sdk-s3-encryption.a
   aws-c-event-stream             # libaws-c-event-stream.a
   aws-checksums                  # libaws-checksums.a
+  aws-c-io
   aws-c-common                   # libaws-c-common.a
   )
 
@@ -39,11 +40,12 @@ ExternalProject_Add(awssdk
   INSTALL_DIR         ${AWS_INSTALL_DIR}
   CMAKE_ARGS
     -DBUILD_ONLY=core\\$<SEMICOLON>s3\\$<SEMICOLON>s3-encryption
-    -DBUILD_SHARED_LIBS:BOOL=OFF
-    -DBUILD_STATIC_LIBS:BOOL=ON
+    -DBUILD_SHARED_LIBS:BOOL=ON
+    -DBUILD_STATIC_LIBS:BOOL=OFF
     -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON
     # -DCMAKE_SOURCE_DIR:PATH=<SOURCE_DIR>
     -DENABLE_TESTING:BOOL=OFF
+    -DWITH_CRT:BOOL=ON
     -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/${AWS_INSTALL_DIR}
     -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
@@ -69,6 +71,7 @@ endforeach()
 # set(OPENSSL_USE_STATIC_LIBS TRUE)
 find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED)
+find_package(ZLIB REQUIRED)
 
-set(AWS_LINK_LIBRARIES ${AWS_REQUIRED_LIBS} OpenSSL::Crypto ${CURL_LIBRARY})
+set(AWS_LINK_LIBRARIES ${AWS_REQUIRED_LIBS} OpenSSL::Crypto ${CURL_LIBRARY} ${ZLIB_LIBRARIES})
 message(STATUS "[AWS] AWS_LINK_LIBRARIES = ${AWS_LINK_LIBRARIES}")

@@ -24,9 +24,9 @@ namespace s3benchmark {
     void CliLogger::print_run_stats(const RunStats &stats) const {
         out << format::string_format("| %7d ", stats.thread_count)
             << format::string_format("| \033[1;31m%8.2f MiB/s\033[0m ", stats.throughput_mbps)
-            << format::string_format("|\033[1m%8.2f s\033[0m ", stats.duration.count() * 1.0 / units::ms_per_sec)
+            << format::string_format("|\033[1m%8.2f s\033[0m ", stats.duration * 1.0 / (units::ms_per_sec * 1000000UL))
             << format::string_format("|\033[1m%9.0f MiB\033[0m ", stats.download_sum * 1.0 / units::mib)
-            << format::string_format("|%5d %5d %5d %9d  ", stats.latency_min.count(), stats.latency_max.count(), stats.latency_avg.count(), stats.latency_sum.count())
+            << format::string_format("|%5dns %5dns %5dns %9dns  ", stats.latency_min, stats.latency_max, stats.latency_avg, stats.latency_sum)
             << format::string_format("|%8d %9d  |", stats.sample_count, stats.samples_sum)
             << std::endl;
     }

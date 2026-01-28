@@ -13,3 +13,20 @@ sudo perf record --freq=997 --call-graph dwarf -q ./s3benchmark  --threads-min 7
 ## Dependencies
 
 `sudo apt-get install zlib1g-dev libssl-dev cmake g++ libcurl4-openssl-dev`
+
+It is **MUCH** easier to install `aws-sdk-cpp` library independently:
+```shell
+git clone git@github.com:aws/aws-sdk-cpp.git
+cd aws-sdk-cpp
+mkdir release && cd release
+cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_ONLY="s3"
+make -j
+sudo make install
+```
+
+## Compilation
+
+```shell
+cmake -DBENCH_TARGET=cli ..
+make -j
+```
