@@ -48,9 +48,9 @@ namespace s3benchmark {
         void sanitize_client_config();
 
     public:
-        inline const static char* DEFAULT_REGION = "eu-central-1";
-        inline const static char* DEFAULT_BUCKET_NAME = "masters-thesis-mk";
-        inline const static char* DEFAULT_OBJECT_NAME = "benchmark/largefile.bin";
+        inline const static char* DEFAULT_REGION = "eu-north-1";
+        inline const static char* DEFAULT_BUCKET_NAME = "tumi13-testbucket";
+        inline const static char* DEFAULT_OBJECT_NAME = "object.bin";
 
         explicit Config(ConfigParameters &&config);
 
