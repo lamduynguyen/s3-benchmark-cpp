@@ -16,10 +16,10 @@ sudo perf record --freq=997 --call-graph dwarf -q ./s3benchmark  --threads-min 7
 
 It is **MUCH** easier to install `aws-sdk-cpp` library independently:
 ```shell
-git clone git@github.com:aws/aws-sdk-cpp.git
+git clone --recurse-submodules https://github.com/aws/aws-sdk-cpp
 cd aws-sdk-cpp
 mkdir release && cd release
-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_ONLY="s3"
+cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_ONLY="core;s3"
 make -j
 sudo make install
 ```
@@ -27,6 +27,6 @@ sudo make install
 ## Compilation
 
 ```shell
-cmake -DBENCH_TARGET=cli ..
+cmake ..
 make -j
 ```
